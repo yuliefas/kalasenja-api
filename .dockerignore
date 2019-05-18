@@ -1,0 +1,15 @@
+dist
+docker
+docs
+.editorconfig
+.env
+.env.example
+.eslintrc.js
+.git
+.gitignore
+.vscode
+jest.config.js
+node_modules
+readme.md
+tmp
+*~

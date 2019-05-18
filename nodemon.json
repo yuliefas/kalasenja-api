@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src/*"
+  ],
+  "ignore": [
+    "src/commons/db/fixtures/*",
+    "src/commons/db/migrations/*",
+    "src/commons/db/seeders",
+    "*.test.js"
+  ]
+}

@@ -1,0 +1,25 @@
+node_modules
+docs
+docs_driver
+.env
+dev.env
+.DS_Store
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+
+# misc
+npm-debug.log
+log/errors.log
+log/combined.log
+!log/.gitkeep
+
+# ignore docker volume 
+/docker/postgres/volume
+!/docker/postgres/volume/.gitkeep
+/docker/redis/volume
+!/docker/redis/volume/.gitkeep
+
+tmp

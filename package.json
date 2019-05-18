@@ -1,0 +1,49 @@
+{
+  "name": "kalasenja-api",
+  "version": "1.0.0",
+  "description": "Kalasenja api is a simple api built with love when chillout",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "env $(cat dev.env) node_modules/.bin/nodemon -e js src/server.js",
+    "lint": "node_modules/.bin/eslint --fix src/* && eslint src",
+    "doc": "node_modules/.bin/apidoc -i src -o docs/",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
+    "migrate:undo": "node_modules/.bin/sequelize db:migrate:undo",
+    "migrate:undo:all": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed:all": "node_modules/.bin/sequelize db:seed:all",
+    "seed:undo:all": "node_modules/.bin/sequelize db:seed:undo:all"
+  },
+  "author": "Yuli Efa Suryantoro",
+  "license": "MIT",
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-timeout": "^1.9.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-paginate": "^1.0.0",
+    "helmet": "^3.15.0",
+    "http-status-codes": "^1.3.0",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "raven": "^2.6.4",
+    "sequelize": "^4.41.2",
+    "sequelize-cli": "^5.4.0",
+    "validate.js": "^0.12.0",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "apidoc": "^0.17.7",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^24.1.0",
+    "nodemon": "^1.18.6"
+  }
+}
