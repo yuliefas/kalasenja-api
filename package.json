@@ -32,6 +32,8 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.2",
     "raven": "^2.6.4",
     "sequelize": "^4.41.2",
     "sequelize-cli": "^5.4.0",

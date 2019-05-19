@@ -16,7 +16,7 @@ const config = require('./config');
  * Times out a request in the Connect/Express application framework
  * docs: https://expressjs.com/en/resources/middleware/timeout.html
  */
-app.use(timeout(config.app.request.timeout));
+app.use(timeout(config.api.request.timeout));
 
 /** --- body parser -----------------------------------------------------
  *

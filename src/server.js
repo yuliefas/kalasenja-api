@@ -1,28 +1,24 @@
 /* eslint-disable no-console */
 const app = require('./app');
 const config = require('./config');
-// const {
-//   sequelize,
-// } = require('./commons/db/models');
+const { sequelize } = require('./commons/db/models');
 
-// const logger = require('./commons/helpers/logger');
+const logger = require('./commons/helpers/logger');
 
-// const connectDb = sequelize.authenticate();
+const connectDb = sequelize.authenticate();
 
-app.listen(config.app.port, config.app.ip, () => {
-  console.log('========================');
-  console.log(`APP_PORT: ${config.app.port}`);
-  console.log(`APP_IP: ${config.app.ip}`);
-  console.log('========================');
+connectDb.then(() => {
+  console.log('===========================');
+  console.log('Connection Postgres success');
+  console.log('===========================');
+
+  app.listen(config.api.port, config.api.host, () => {
+    console.log('===========================');
+    console.log(`API_PORT: ${config.api.port}`);
+    console.log(`API_HOST: ${config.api.host}`);
+    console.log('===========================');
+  });
+}).catch((error) => {
+  logger.error(error);
+  process.exit();
 });
-// connectDb.then(() => {
-//   app.listen(config.app.port, config.app.ip, () => {
-//     console.log('========================');
-//     console.log(`APP_PORT: ${config.app.port}`);
-//     console.log(`APP_IP: ${config.app.ip}`);
-//     console.log('========================');
-//   });
-// }).catch((error) => {
-//   logger.error(error);
-//   process.exit();
-// });

@@ -10,25 +10,52 @@ const { postgres } = require('./../../../config');
 module.exports = {
   // docs: https://github.com/sequelize/cli/blob/HEAD/docs/README.md
   development: {
-    url: postgres.development.url,
+    username: postgres.username,
+    password: postgres.password,
+    database: postgres.database,
+    host: postgres.host,
+    port: postgres.port,
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize',
+    define: {
+      timestamps: true,
+    },
   },
   test: {
-    url: postgres.test.url,
+    username: postgres.username,
+    password: postgres.password,
+    database: postgres.database,
+    host: postgres.host,
+    port: postgres.port,
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize',
+    define: {
+      timestamps: true,
+    },
   },
   production: {
-    url: postgres.production.url,
+    username: postgres.username,
+    password: postgres.password,
+    database: postgres.database,
+    host: postgres.host,
+    port: postgres.port,
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     seederStorage: 'sequelize',
-    ssl: true,
-    dialectOptions: {
-      ssl: true,
+    // ssl: true,
+    // dialectOptions: {
+    //   ssl: true,
+    // },
+    define: {
+      timestamps: true,
     },
+    //   pool: {
+    //     max: 100, // default max pool size 100
+    //     min: 0,
+    //     acquire: 30000,
+    //     idle: 10000,
+    //   },
   },
 };

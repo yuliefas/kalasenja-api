@@ -5,12 +5,12 @@ module.exports = {
   node: {
     env: process.env.NODE_ENV || 'development', // consider with sequelize (development, test, production)
   },
-  app: {
-    port: process.env.APP_PORT || 3000,
-    ip: process.env.APP_IP || '0.0.0.0',
-    secret: process.env.APP_SECRET || 'secret-key', // use for salt login
+  api: {
+    port: process.env.API_PORT || 3000,
+    host: process.env.API_IP || '0.0.0.0',
+    secret: process.env.API_SECRET || 'secret-key', // use for salt login
     request: {
-      timeout: process.env.APP_REQUEST_TIMEOUT || '10s',
+      timeout: process.env.API_REQUEST_TIMEOUT || '10s',
     },
   },
   aws: {
@@ -24,18 +24,14 @@ module.exports = {
     path: '/tmp',
   },
   frontEnd: {
-    baseUrl: process.env.FRONTEND_BASE_URL || 'http://wonderlabs.io',
+    baseUrl: process.env.FRONTEND_BASE_URL || 'http://localhost',
   },
   postgres: {
-    development: {
-      url: process.env.POSTGRES_DEVELOPMENT_URL || '',
-    },
-    test: {
-      url: process.env.POSTGRES_TEST_URL || '',
-    },
-    production: {
-      url: process.env.POSTGRES_PRODUCTION_URL || '',
-    },
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
   },
   sentry: {
     url: process.env.SENTRY_URL,
