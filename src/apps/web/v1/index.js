@@ -1,14 +1,13 @@
 const express = require('express');
 
-const router = express();
+const router = express.Router();
 
-router.get('/ping', (_req, res, next) => {
-  try {
-    res.status(200).send('Api web v1 ready!');
-  } catch (error) {
-    next(error);
-  }
-});
+const ping = require('./ping');
+const leave = require('./leave');
+const user = require('./user');
 
+router.use('/ping', ping);
+router.use('/leaves', leave);
+router.use('/users', user);
 
 module.exports = router;

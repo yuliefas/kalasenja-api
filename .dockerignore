@@ -4,6 +4,7 @@ docs
 .editorconfig
 .env
 .env.example
+dev.env.example
 .eslintrc.js
 .git
 .gitignore

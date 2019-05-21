@@ -1,14 +1,9 @@
 const express = require('express');
 
-const router = express();
+const router = express.Router();
 
-router.get('/ping', (_req, res, next) => {
-  try {
-    res.status(200).send('Api mobile v1 ready!');
-  } catch (error) {
-    next(error);
-  }
-});
+const ping = require('./ping');
 
+router.use('/ping', ping);
 
 module.exports = router;

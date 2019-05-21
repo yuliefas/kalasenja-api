@@ -1,7 +1,7 @@
 {
   "name": "kalasenja-api",
   "version": "1.0.0",
-  "description": "Kalasenja api is a simple api built with love when chillout",
+  "description": "Kalasenja api is a simple api built with love when chill out",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -37,6 +37,7 @@
     "raven": "^2.6.4",
     "sequelize": "^4.41.2",
     "sequelize-cli": "^5.4.0",
+    "uuid": "^3.3.2",
     "validate.js": "^0.12.0",
     "winston": "^3.1.0"
   },
