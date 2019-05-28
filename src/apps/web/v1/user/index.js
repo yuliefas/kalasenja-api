@@ -3,15 +3,9 @@ const models = require('./../../../../commons/db/models');
 
 const router = express();
 
-router.post('/', async (req, res, next) => {
-  try {
-    const users = await models.User.create({ firstName: req.body.firstName });
+const createUser = require('./controllers/createUser');
 
-    res.status(200).send({ users });
-  } catch (error) {
-    next(error);
-  }
-});
+router.post('/', createUser.validation, createUser.handler);
 
 router.get('/', async (req, res, next) => {
   try {
