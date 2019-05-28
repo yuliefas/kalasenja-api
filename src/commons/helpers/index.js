@@ -7,7 +7,7 @@ const {
 const crypto = require('crypto');
 const config = require('./../../config');
 
-const salt = config.app.secret;
+const salt = config.api.secret;
 
 /**
  *
@@ -36,11 +36,11 @@ const removeKeysFromDoc = (doc, keys) => {
  * @param {Array} keys
  *
  * @example getKeysFromDoc({ x: 'x', y: 'y', z: 'z' }, ['x', 'y'])
- * @return {Array} [{x: 'x', y: 'y'}]
+ * @return {Object} {x: 'x', y: 'y'}
  */
 const getKeysFromDoc = (doc, keys) => {
   const objKeys = Object.keys(doc);
-  return (objKeys.length >= 1) ? pick(doc, keys) : {};
+  return (objKeys.length >= 1) ? pick(doc, keys) : null;
 };
 
 const iterations = 10000;

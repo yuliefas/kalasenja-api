@@ -6,7 +6,7 @@ Kalasenja api is a simple api built with love when chillout
 
 - Node:10
 - Postgres:11
-- Npm:6.4
+- Npm:6.9.0
 - Docker
 - Docker-compose
 
