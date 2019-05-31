@@ -1,3 +1,5 @@
+const uuidv4 = require('uuid/v4');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: DataTypes.STRING,
@@ -8,5 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     // models.Airline.hasMany(models.AirlineTerminal, { foreignKey: 'airlineId' });
     models.User.hasMany(models.Leave);
   };
+
+  User.beforeCreate(user => user.id = uuidv4());
+
   return User;
 };

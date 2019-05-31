@@ -1,4 +1,6 @@
 const http = require('http-status-codes');
+const { getKeysFromDoc } = require('./');
+
 /**
  * reff: https://blog.restcase.com/rest-api-error-codes-101/
  * kalasenja api ini menggunakan 5 standar error kode:
@@ -9,37 +11,109 @@ const http = require('http-status-codes');
  * 4. 404 untuk uri yang tidak ada di api
  * 5. 500 untuk internal server error
  *
+ * const fail =
+ * {
+ *   error: {
+ *     code: 400,
+ *     type: 'Bad Request',
+ *     message: 'missing attribute name'
+ *   },
+ *   data: null,
+ *   meta: null,
+ * }
+ *
+ * const error =
+ * {
+ *   error: {
+ *     code: 500,
+ *     type: 'Internal Server Error',
+ *     message: 'undefined Object x on line [200] ...'
+ *   },
+ *   data: null,
+ *   meta: null,
+ * }
+ *
+ * const success =
+ * {
+ *   error: null,
+ *   data: {
+ *     items: [{
+ *       name: 'book'
+ *     }, ...]
+ *   },
+ *   meta: {
+ *     current_page: 1,
+ *     total_page: 5,
+ *     limit_perpage: 40,
+ *   },
+ * }
+ */
+
+/**
  * 500 (Internal Server Error)
+ * {
+ *   error: {
+ *     code: 500,
+ *     type: 'Internal Server Error',
+ *     message: 'undefined Object x on line [200] ...'
+ *   },
+ *   data: null,
+ *   meta: null,
+ * }
+ *
+ * docs: https://nodejs.org/api/errors.html#errors_new_error_message
+ *
+ * @class AppError
+ * @extends {Error}
  */
 class AppError extends Error {
+  /**
+   * Creates an instance of AppError.
+   * @param {String} message
+   * @param {Number} errorCode
+   * @memberof AppError
+   */
   constructor(message, errorCode) {
     super(message);
 
-    this.name = this.constructor.name;
-    Error.captureStackTrace(this, this.constructor);
+    Error.captureStackTrace(this, this.constructor.name);
 
-    this.errorCode = errorCode || http.INTERNAL_SERVER_ERROR;
+    const code = errorCode || http.INTERNAL_SERVER_ERROR;
+    this.error = {
+      code,
+      type: http.getStatusText(code),
+      message: message.toString(),
+      // stack: this.stack,
+    };
+    this.data = null;
+    this.meta = null;
   }
 
   /**
+   *
    * example {
    *   "errorCode"  : "444444",
-   *   "moreInfo"   : "http://www.example.gov/developer/path/to/help/for/444444, http://tests.org/node/444444"
+   *   "meta"   : "http://www.example.gov/developer/path/to/help/for/444444, http://tests.org/node/444444"
    * }
+   *
+   * @param {*} meta
+   * @memberof AppError
    */
-  moreInfo(info) {
-    this.moreInfo = info;
+  setMeta(meta) {
+    this.meta = meta;
   }
 }
 
 /**
  * 404 (Not Found)
  * when the client URI cannot be mapped to a resource
+ *
+ * @class NotFoundError
+ * @extends {AppError}
  */
 class NotFoundError extends AppError {
   constructor(message) {
-    super(message);
-    this.errorCode = http.NOT_FOUND;
+    super(message, http.NOT_FOUND);
   }
 }
 
@@ -48,11 +122,13 @@ class NotFoundError extends AppError {
  * jika ada masalah dalam credential
  * jika klien mencoba beroprasi dengan sumber daya dilindungi
  * tanpa memberikan credential yang salah atau tidak sama sekali
+ *
+ * @class UnauthorizedError
+ * @extends {AppError}
  */
 class UnauthorizedError extends AppError {
   constructor(message) {
-    super(message);
-    this.errorCode = http.UNAUTHORIZED;
+    super(message, http.UNAUTHORIZED);
   }
 }
 
@@ -60,11 +136,18 @@ class UnauthorizedError extends AppError {
  * 403 (Forbidden)
  * untuk melarang akses (hak akses) tanpa peduli pada otorisasi
  * bukan merupakan masalah kredential karena sudah di tangani kode 401 (Authorized)
+ *
+ * @class ForbiddenError
+ * @extends {AppError}
  */
 class ForbiddenError extends AppError {
+  /**
+   * Creates an instance of ForbiddenError.
+   * @param {String} message
+   * @memberof ForbiddenError
+   */
   constructor(message) {
-    super(message);
-    this.errorCode = http.FORBIDDEN;
+    super(message, http.FORBIDDEN);
   }
 }
 
@@ -73,30 +156,31 @@ class ForbiddenError extends AppError {
  * dapat di gunakan untuk menunjukan kegagalan yang tidak spesifik
  * bisa berisi dokumen yang menjelaskan kesalahan klien
  * bisa di gunakan untuk validasi
+ *
+ * @class BadRequestError
+ * @extends {AppError}
  */
 class BadRequestError extends AppError {
-  constructor(message) {
-    super(message);
-    this.errorCode = http.BAD_REQUEST;
-  }
-
-  field(name) {
-    this.field = name;
-  }
-
   /**
-   * Verbose, plain language description of the problem.
-   * Provide developers suggestions about how to solve their problems here
+   * Creates an instance of BadRequestError.
+   * @param {String} message
+   * @param {Object} meta { validations: [] }
+   * @memberof BadRequestError
    */
-  developerMessage(msg) {
-    this.developerMessage = msg;
-  }
+  constructor(message, meta) {
+    super(message, http.BAD_REQUEST);
 
-  /**
-   * This is a message that can be passed along to end-users, if needed.
-   */
-  userMessage(msg) {
-    this.userMessage = msg;
+    const allowMeta = ['validations'];
+
+    this.setMeta(getKeysFromDoc(meta, allowMeta));
+  }
+}
+
+class Success {
+  constructor(data, meta) {
+    this.data = data;
+    this.meta = meta;
+    this.error = null;
   }
 }
 
@@ -106,4 +190,5 @@ module.exports = {
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
+  Success,
 };

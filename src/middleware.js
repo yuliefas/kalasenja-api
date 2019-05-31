@@ -64,3 +64,5 @@ const corsOptions = {
   preflightContinue: false, // pass the cors preflight response to the next handler
 };
 app.use(cors(corsOptions));
+
+module.exports = app;
